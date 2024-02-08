@@ -22,6 +22,12 @@ function loadFile(event) {
 			element.style.width = node.width + 'px';
 			element.style.height = node.height + 'px';
 			element.style.transform = `scale(${zoomLevel})`;
+			if (node.color.charAt(0) == '#') {
+				const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(node.color);
+				element.style.setProperty("--canvas-color", `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`);
+			} else {
+				element.style.setProperty("--canvas-color", `var(--canvas-color-${node.color})`);
+			}
 			element.innerHTML = converter.makeHtml(node.text);
 			document.getElementById('nodeContainer').appendChild(element);
 			canvasObjects.nodes.push({
@@ -61,7 +67,7 @@ function draw() {
 
 	console.log(window.innerWidth, window.innerHeight, offset.x, offset.y, zoomLevel)
 
-	ctx.fillStyle = "#353535"
+	ctx.fillStyle = "#363636"
 	const circleRadius = 1/zoomLevel;
 	
 	let baseGap;

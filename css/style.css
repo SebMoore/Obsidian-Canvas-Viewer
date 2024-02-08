@@ -13,7 +13,7 @@ header {
     align-items: center;
     background-color: #1e1e1e;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 h1 {
@@ -52,10 +52,22 @@ canvas {
 }
 
 .node {
+    --canvas-color-1: 233, 49, 71;
+    --canvas-color-2: 236, 117, 0;
+    --canvas-color-3: 224, 172, 0;
+    --canvas-color-4: 8, 185, 78;
+    --canvas-color-5: 0, 191, 188;
+    --canvas-color-6: 120, 82, 238;
+    --canvas-color: 30, 30, 30;
+    background-color: rgba(var(--canvas-color), 0.1);
+    border-radius: 8px;
+    border: 2px solid rgb(var(--canvas-color));
     position: absolute;
     overflow: auto;
     word-wrap: break-word;
     transform-origin: 0 0;
+    box-shadow: 0px 0.5px 1px 0.5px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
 
 code {
@@ -69,5 +81,5 @@ footer {
     align-items: center;
     background-color: #1e1e1e;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }

@@ -9,7 +9,7 @@ function loadFile(event) {
 	reader.readAsText(file);
 
 	reader.onload = readerEvent => {
-		let converter = new showdown.Converter();
+		let converter = new showdown.Converter({tables: true, tasklists: true, requireSpaceBeforeHeadingText: true, openLinksInNewWindow: true});
 		let content = JSON.parse(readerEvent.target.result);
 		console.log(content);
 		canvasObjects.edges = content.edges;
@@ -36,6 +36,7 @@ function loadFile(event) {
 				y: node.y
 			});
 		});
+		Prism.highlightAll();
 		console.log(canvasObjects);
 	}
 }

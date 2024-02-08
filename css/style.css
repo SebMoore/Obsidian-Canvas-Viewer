@@ -62,16 +62,17 @@ canvas {
     background-color: rgba(var(--canvas-color), 0.1);
     border-radius: 8px;
     border: 2px solid rgb(var(--canvas-color));
+    box-shadow: inset 0 0 0 1px rgb(var(--canvas-color)), 0 0 0 2px rgb(var(--canvas-color));
     position: absolute;
     overflow: auto;
     word-wrap: break-word;
+    padding: 0 24px 0;
     transform-origin: 0 0;
-    box-shadow: 0px 0.5px 1px 0.5px rgba(0, 0, 0, 0.1);
     z-index: 2;
 }
 
 code {
-    white-space: pre-wrap;
+    white-space: pre-wrap !important;
 }
 
 footer {

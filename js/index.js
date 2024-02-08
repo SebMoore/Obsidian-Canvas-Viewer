@@ -54,7 +54,6 @@ function draw() {
 	canvas.width = window.innerWidth
 	canvas.height = window.innerHeight
 	
-	// Translate to the canvas centre before zooming - so you'll always zoom on what you're looking directly at
 	ctx.translate(window.innerWidth / 2, window.innerHeight / 2)
 	ctx.scale(zoomLevel, zoomLevel)
 	ctx.translate(-window.innerWidth / 2 + offset.x, -window.innerHeight / 2 + offset.y)
@@ -119,15 +118,10 @@ function updateNodes(localOffset) {
 	});
 }
 
-// Gets the relevant location from a mouse or single touch event
-function getEventLocation(e)
-{
-	if (e.touches && e.touches.length == 1)
-	{
+function getEventLocation(e) {
+	if (e.touches && e.touches.length == 1)	{
 		return { x:e.touches[0].clientX, y: e.touches[0].clientY }
-	}
-	else if (e.clientX && e.clientY)
-	{
+	} else if (e.clientX && e.clientY) {
 		return { x: e.clientX, y: e.clientY }        
 	}
 }
@@ -135,37 +129,35 @@ function getEventLocation(e)
 let isDragging = false
 let dragStart = { x: 0, y: 0 }
 
-function onPointerDown(e)
-{
+function onPointerDown(e) {
+	if (e.button != 1) {
+		return
+	}
 	isDragging = true
 	dragStart.x = getEventLocation(e).x/zoomLevel - offset.x
 	dragStart.y = getEventLocation(e).y/zoomLevel - offset.y
 }
 
-function onPointerUp(e)
-{
+function onPointerUp(e) {
+	if (e.button != 1) {
+		return
+	}
 	isDragging = false
 	initialPinchDistance = null
 	lastZoom = zoomLevel
 }
 
-function onPointerMove(e)
-{
-	if (isDragging)
-	{
+function onPointerMove(e) {
+	if (isDragging) {
 		offset.x = getEventLocation(e).x/zoomLevel - dragStart.x
 		offset.y = getEventLocation(e).y/zoomLevel - dragStart.y
 	}
 }
 
-function handleTouch(e, singleTouchHandler)
-{
-	if ( e.touches.length == 1 )
-	{
+function handleTouch(e, singleTouchHandler) {
+	if ( e.touches.length == 1 ) {
 		singleTouchHandler(e)
-	}
-	else if (e.type == "touchmove" && e.touches.length == 2)
-	{
+	} else if (e.type == "touchmove" && e.touches.length == 2) {
 		isDragging = false
 		handlePinch(e)
 	}
@@ -174,36 +166,26 @@ function handleTouch(e, singleTouchHandler)
 let initialPinchDistance = null
 let lastZoom = zoomLevel
 
-function handlePinch(e)
-{
+function handlePinch(e) {
 	e.preventDefault()
 	
 	let touch1 = { x: e.touches[0].clientX, y: e.touches[0].clientY }
 	let touch2 = { x: e.touches[1].clientX, y: e.touches[1].clientY }
 	
-	// This is distance squared, but no need for an expensive sqrt as it's only used in ratio
 	let currentDistance = (touch1.x - touch2.x)**2 + (touch1.y - touch2.y)**2
 	
-	if (initialPinchDistance == null)
-	{
+	if (initialPinchDistance == null) {
 		initialPinchDistance = currentDistance
-	}
-	else
-	{
+	} else {
 		adjustZoom( null, currentDistance/initialPinchDistance )
 	}
 }
 
-function adjustZoom(zoomAmount, zoomFactor)
-{
-	if (!isDragging)
-	{
-		if (zoomAmount)
-		{
+function adjustZoom(zoomAmount, zoomFactor) {
+	if (!isDragging) {
+		if (zoomAmount) {
 			zoomLevel += zoomAmount
-		}
-		else if (zoomFactor)
-		{
+		} else if (zoomFactor) {
 			console.log(zoomFactor)
 			zoomLevel = zoomFactor*lastZoom
 		}
@@ -215,13 +197,14 @@ function adjustZoom(zoomAmount, zoomFactor)
 	}
 }
 
-canvas.addEventListener('mousedown', onPointerDown)
-canvas.addEventListener('touchstart', (e) => handleTouch(e, onPointerDown))
-canvas.addEventListener('mouseup', onPointerUp)
-canvas.addEventListener('touchend',  (e) => handleTouch(e, onPointerUp))
-canvas.addEventListener('mousemove', onPointerMove)
-canvas.addEventListener('touchmove', (e) => handleTouch(e, onPointerMove))
-canvas.addEventListener('wheel', (e) => adjustZoom(-e.deltaY*0.001))
+const bodyContainer = document.getElementById('bodyContainer')
 
-// Ready, set, go
+bodyContainer.addEventListener('mousedown', onPointerDown)
+bodyContainer.addEventListener('touchstart', (e) => handleTouch(e, onPointerDown))
+bodyContainer.addEventListener('mouseup', onPointerUp)
+bodyContainer.addEventListener('touchend',  (e) => handleTouch(e, onPointerUp))
+bodyContainer.addEventListener('mousemove', onPointerMove)
+bodyContainer.addEventListener('touchmove', (e) => handleTouch(e, onPointerMove))
+bodyContainer.addEventListener('wheel', (e) => adjustZoom(-e.deltaY*0.001))
+
 draw()

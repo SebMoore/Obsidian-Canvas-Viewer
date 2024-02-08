@@ -1,0 +1,73 @@
+body {
+    font-family: 'Inter', sans-serif;
+    color: #dadada;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+header {
+    height: 2.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e1e1e;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    margin: 0;
+    padding-left: 1vh;
+}
+
+.file-label {
+    margin: 0;
+    margin-right: 1vh;
+    padding-left: 0.5vh;
+    padding-right: 0.5vh;
+    background-color: #1e1e1e;
+    border: 0.1em solid #dadada;
+    border-radius: 0.5em;
+}
+
+.file-label:hover {
+    background-color: #343434;
+    cursor: pointer;
+}
+
+.file-label:active {
+    background-color: #5e5e5e;
+}
+
+.svg-container {
+    vertical-align: middle;
+}
+
+canvas {
+    width: 100%;
+    height: calc(100vh - 5em);
+    background-color: #1e1e1e;
+    display: block;
+}
+
+.node {
+    position: absolute;
+    overflow: auto;
+    word-wrap: break-word;
+    transform-origin: 0 0;
+}
+
+code {
+    white-space: pre-wrap;
+}
+
+footer {
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+    position: relative;
+    z-index: 2;
+}
